@@ -25,6 +25,7 @@ export default function Window({
   const [isResizing, setIsResizing] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const windowRef = useRef(null);
+  const wasOpenRef = useRef(false);
 
   // Responsive mobile checking
   useEffect(() => {
@@ -36,25 +37,29 @@ export default function Window({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Cascading coordinate positioning on mount
+  // Dynamic cascading coordinate positioning triggered on window open transition
   useEffect(() => {
-    const openCount = window.__lakshay_open_count || 0;
-    if (openCount === 0) {
-      const centerX = Math.max(20, (window.innerWidth - defaultWidth) / 2);
-      const centerY = Math.max(45, (window.innerHeight - defaultHeight) / 2);
-      setPosition({ x: centerX, y: centerY });
-    } else {
-      const offset = (id.charCodeAt(0) % 5) * 35 + 20;
-      const cascadeX = Math.max(40, (window.innerWidth - defaultWidth) / 4) + offset;
-      const cascadeY = Math.max(60, (window.innerHeight - defaultHeight) / 4) + offset;
-      setPosition({ x: cascadeX, y: cascadeY });
-    }
-    window.__lakshay_open_count = openCount + 1;
+    if (isOpen && !wasOpenRef.current) {
+      const centerX = Math.max(40, (window.innerWidth - defaultWidth) / 2);
+      const centerY = Math.max(60, (window.innerHeight - defaultHeight) / 2);
 
-    return () => {
-      window.__lakshay_open_count = Math.max(0, (window.__lakshay_open_count || 1) - 1);
-    };
-  }, [id, defaultWidth, defaultHeight]);
+      if (!window.__lakshay_cascade_counter) {
+        window.__lakshay_cascade_counter = 0;
+      }
+      const cascadeIndex = window.__lakshay_cascade_counter % 6;
+      window.__lakshay_cascade_counter += 1;
+
+      // Cascading offset: 30px offset per cascade level
+      const offset = cascadeIndex * 30;
+      
+      // Calculate balanced, professional centered cascade coordinates
+      const finalX = Math.max(20, centerX - 90 + offset);
+      const finalY = Math.max(45, centerY - 90 + offset);
+
+      setPosition({ x: finalX, y: finalY });
+    }
+    wasOpenRef.current = isOpen;
+  }, [isOpen, defaultWidth, defaultHeight]);
 
   const handleMouseDown = (e) => {
     if (e.target.closest('.window-control') || e.target.closest('.resize-handle') || isMaximized || isMobile) return;
