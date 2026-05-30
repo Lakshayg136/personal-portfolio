@@ -11,6 +11,9 @@
   <a href="https://github.com/Lakshayg136" target="_blank">
     <img src="https://img.shields.io/badge/GitHub-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
+  <a href="https://leetcode.com/Lakshayg136" target="_blank">
+    <img src="https://img.shields.io/badge/-LeetCode-FFA116?style=for-the-badge&logo=LeetCode&logoColor=black" alt="LeetCode" />
+  </a>
 </p>
 
 ---
@@ -58,7 +61,7 @@ I am an engineering student specializing in Computer Science & Engineering at Ch
 
 <p align="center">
   <a href="https://github.com/Lakshayg136">
-    <img src="https://github-profile-summary-cards.verc.in/api/cards/profile-details?username=Lakshayg136&theme=tokyonight" alt="GitHub Profile Summary" height="190" />
+    <img src="https://github-profile-summary-cards.verc.in/api/cards/profile-details?username=Lakshayg136&theme=dracula" alt="GitHub Profile Summary" height="190" />
   </a>
   <a href="https://github.com/Lakshayg136">
     <img src="https://github-readme-streak-stats.herokuapp.com/?user=Lakshayg136&theme=tokyonight&hide_border=true" alt="GitHub Streak Stats" height="190" />
@@ -68,6 +71,9 @@ I am an engineering student specializing in Computer Science & Engineering at Ch
 <p align="center">
   <a href="https://github.com/Lakshayg136">
     <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Lakshayg136&layout=compact&theme=tokyonight&hide_border=true&langs_count=6" alt="Top Languages" height="150" />
+  </a>
+  <a href="https://leetcode.com/Lakshayg136">
+    <img src="https://leetcard.jacoblin.cool/Lakshayg136?theme=dark&font=Outfit" alt="Leetcode Stats" height="150" />
   </a>
 </p>
 
