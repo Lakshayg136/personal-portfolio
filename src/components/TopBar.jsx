@@ -161,16 +161,13 @@ export default function TopBar({
       <header className="fixed top-0 left-0 right-0 h-10 glass-nav text-xs text-textPrimary px-4 flex items-center justify-between z-50 select-none pointer-events-auto">
         {/* Left Menu Items */}
         <div className="flex items-center space-x-4">
-          <svg 
-            viewBox="0 0 24 24" 
-            className="w-4 h-4 text-white hover:text-accentPrimary transition-all hover:scale-110 active:scale-95 duration-200 cursor-pointer fill-current select-none"
+          <FaApple 
+            className="w-4.5 h-4.5 text-white hover:text-accentPrimary transition-all hover:scale-110 active:scale-95 duration-200 cursor-pointer select-none"
             onClick={() => handleMenuClick('apple')}
             role="img"
             aria-label="Apple Logo"
-          >
-            <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C3.79 16.3 3.4 9.9 7.02 9.53c1.39-.14 2.45.62 3.19.62.74 0 2.22-.84 3.97-.66 1.52.12 2.76.73 3.48 1.78-3.14 1.88-2.38 6.13.79 7.42-.64 1.6-1.5 3.32-2.4 4.58zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.08 4.5-3.74 4.25z" />
-          </svg>
-          <span className="font-extrabold text-gradient cursor-pointer text-sm select-none mr-2">
+          />
+          <span className="font-bold text-white cursor-pointer text-xs select-none mr-2 tracking-wide font-sans">
             {getAppTitle(activeWindow)}
           </span>
 
