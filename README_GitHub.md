@@ -58,10 +58,11 @@ I am a dedicated and creative **B.E. Computer Science student at Chandigarh Univ
 
 <p align="center">
   <a href="https://github.com/Lakshayg136">
-    <img src="https://github-readme-stats.vercel.app/api?username=Lakshayg136&show_icons=true&theme=tokyonight&count_private=true&hide_border=true" alt="Lakshay's GitHub Stats" height="190" />
+    <img src="https://github-readme-stats-git-master-anuraghazra.vercel.app/api?username=Lakshayg136&show_icons=true&theme=tokyonight&hide_border=true" alt="Lakshay's GitHub Stats" height="190" />
   </a>
   <a href="https://github.com/Lakshayg136">
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Lakshayg136&layout=compact&theme=tokyonight&hide_border=true&langs_count=6" alt="Top Languages" height="190" />
+    <img src="https://github-readme-stats-git-master-anuraghazra.vercel.app/api/top-langs/?username=Lakshayg136&layout=compact&theme=tokyonight&hide_border=true&langs_count=6" alt="Top Languages" height="190" />
+  </a>
 </p>
 
 ---
