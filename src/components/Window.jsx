@@ -20,12 +20,10 @@ export default function Window({
   children 
 }) {
   const [position, setPosition] = useState({ x: defaultX, y: defaultY });
-  const [size, setSize] = useState({ width: defaultWidth, height: defaultHeight });
+  const [size] = useState({ width: defaultWidth, height: defaultHeight });
   const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const windowRef = useRef(null);
-  const wasOpenRef = useRef(false);
 
   // Responsive mobile checking
   useEffect(() => {
@@ -37,32 +35,8 @@ export default function Window({
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Dynamic cascading coordinate positioning triggered on window open transition
-  useEffect(() => {
-    if (isOpen && !wasOpenRef.current) {
-      const centerX = Math.max(40, (window.innerWidth - defaultWidth) / 2);
-      const centerY = Math.max(60, (window.innerHeight - defaultHeight) / 2);
-
-      if (!window.__lakshay_cascade_counter) {
-        window.__lakshay_cascade_counter = 0;
-      }
-      const cascadeIndex = window.__lakshay_cascade_counter % 6;
-      window.__lakshay_cascade_counter += 1;
-
-      // Cascading offset: 30px offset per cascade level
-      const offset = cascadeIndex * 30;
-      
-      // Calculate balanced, professional centered cascade coordinates
-      const finalX = Math.max(20, centerX - 90 + offset);
-      const finalY = Math.max(45, centerY - 90 + offset);
-
-      setPosition({ x: finalX, y: finalY });
-    }
-    wasOpenRef.current = isOpen;
-  }, [isOpen, defaultWidth, defaultHeight]);
-
   const handleMouseDown = (e) => {
-    if (e.target.closest('.window-control') || e.target.closest('.resize-handle') || isMaximized || isMobile) return;
+    if (e.target.closest('.window-control') || isMaximized || isMobile) return;
     
     onFocus(id);
     setIsDragging(true);
@@ -86,83 +60,28 @@ export default function Window({
     document.addEventListener('mouseup', handleMouseUp);
   };
 
-  const handleResizeMouseDown = (e, direction) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onFocus(id);
-    setIsResizing(true);
-
-    const startWidth = size.width;
-    const startHeight = size.height;
-    const startX = e.clientX;
-    const startY = e.clientY;
-    const startLeft = position.x;
-    const startTop = position.y;
-
-    const handleResizeMouseMove = (moveEvent) => {
-      let newWidth = startWidth;
-      let newHeight = startHeight;
-      let newLeft = startLeft;
-      let newTop = startTop;
-
-      if (direction.includes('e')) {
-        newWidth = Math.max(320, startWidth + (moveEvent.clientX - startX));
-      }
-      if (direction.includes('w')) {
-        const deltaX = moveEvent.clientX - startX;
-        if (startWidth - deltaX > 320) {
-          newWidth = startWidth - deltaX;
-          newLeft = startLeft + deltaX;
-        }
-      }
-      if (direction.includes('s')) {
-        newHeight = Math.max(240, startHeight + (moveEvent.clientY - startY));
-      }
-      if (direction.includes('n')) {
-        const deltaY = moveEvent.clientY - startY;
-        if (startHeight - deltaY > 240) {
-          newHeight = startHeight - deltaY;
-          newTop = startTop + deltaY;
-        }
-      }
-
-      setSize({ width: newWidth, height: newHeight });
-      setPosition({ x: newLeft, y: newTop });
-    };
-
-    const handleResizeMouseUp = () => {
-      setIsResizing(false);
-      document.removeEventListener('mousemove', handleResizeMouseMove);
-      document.removeEventListener('mouseup', handleResizeMouseUp);
-    };
-
-    document.addEventListener('mousemove', handleResizeMouseMove);
-    document.addEventListener('mouseup', handleResizeMouseUp);
-  };
-
   const isWindowActive = activeWindow === id;
 
-  // Animate states for gorgeous native macOS spring transitions (fade, scale, and size/position transition)
-  const isInteractive = isDragging || isResizing;
+  // Transition parameters: disable during direct dragging to guarantee 100% instant native response
+  const isInteractive = isDragging;
   const transitionConfig = isInteractive
-    ? { type: 'just' }
+    ? { duration: 0 }
     : { type: 'spring', stiffness: 350, damping: 30, mass: 0.85 };
 
   const initialDesktop = {
     opacity: 0,
     scale: 0.85,
-    y: 40,
-    width: `${size.width}px`,
-    height: `${size.height}px`,
-    top: `${position.y}px`,
-    left: `${position.x}px`
+    y: 40
   };
 
   const animateDesktop = {
-    width: isMaximized ? 'calc(100% - 48px)' : `${size.width}px`,
-    height: isMaximized ? 'calc(100% - 100px)' : `${size.height}px`,
-    top: isMaximized ? 12 : position.y,
-    left: isMaximized ? 24 : position.x,
+    // Only animate dimensions in Framer Motion when maximizing or restoring
+    ...(isMaximized && {
+      width: 'calc(100% - 48px)',
+      height: 'calc(100% - 100px)',
+      top: 12,
+      left: 24
+    }),
     opacity: (isOpen && !isMinimized) ? 1 : 0,
     scale: (isOpen && !isMinimized) ? 1 : 0.85,
     y: (isOpen && !isMinimized) ? 0 : 40,
@@ -180,7 +99,14 @@ export default function Window({
 
   const desktopStyles = {
     position: 'absolute',
-    zIndex: zIndex
+    zIndex: zIndex,
+    // Apply position & size through direct inline styles when normal to bypass Framer Motion's animated layout overhead
+    ...(!isMaximized && {
+      top: `${position.y}px`,
+      left: `${position.x}px`,
+      width: `${size.width}px`,
+      height: `${size.height}px`
+    })
   };
 
   return (
@@ -198,23 +124,6 @@ export default function Window({
           : 'border-white/10 opacity-90 hover:opacity-100'
       }`}
     >
-      {/* Edge & Corner Resizer Drag Handles (Hidden in maximized mode or on mobile) */}
-      {!isMaximized && !isMobile && (
-        <>
-          {/* Borders */}
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'n')} className="resize-handle absolute top-0 left-0 right-0 h-1.5 cursor-n-resize z-50 select-none" />
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 's')} className="resize-handle absolute bottom-0 left-0 right-0 h-1.5 cursor-s-resize z-50 select-none" />
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'e')} className="resize-handle absolute top-0 bottom-0 right-0 w-1.5 cursor-e-resize z-50 select-none" />
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'w')} className="resize-handle absolute top-0 bottom-0 left-0 w-1.5 cursor-w-resize z-50 select-none" />
-          
-          {/* Corners */}
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'nw')} className="resize-handle absolute top-0 left-0 w-3 h-3 cursor-nw-resize z-50 select-none" />
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'ne')} className="resize-handle absolute top-0 right-0 w-3 h-3 cursor-ne-resize z-50 select-none" />
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'sw')} className="resize-handle absolute bottom-0 left-0 w-3 h-3 cursor-sw-resize z-50 select-none" />
-          <div onMouseDown={(e) => handleResizeMouseDown(e, 'se')} className="resize-handle absolute bottom-0 right-0 w-3 h-3 cursor-se-resize z-50 select-none" />
-        </>
-      )}
-
       {/* Title Bar - Drag Handles */}
       <div 
         onMouseDown={handleMouseDown}

@@ -161,12 +161,31 @@ export default function TopBar({
       <header className="fixed top-0 left-0 right-0 h-10 glass-nav text-xs text-textPrimary px-4 flex items-center justify-between z-50 select-none pointer-events-auto">
         {/* Left Menu Items */}
         <div className="flex items-center space-x-4">
-          <FaApple 
-            className="w-4.5 h-4.5 text-white hover:text-accentPrimary transition-all hover:scale-110 active:scale-95 duration-200 cursor-pointer select-none"
-            onClick={() => handleMenuClick('apple')}
-            role="img"
-            aria-label="Apple Logo"
-          />
+          <div className="relative flex items-center">
+            <FaApple 
+              className="w-4.5 h-4.5 text-white hover:text-accentPrimary transition-all hover:scale-110 active:scale-95 duration-200 cursor-pointer select-none"
+              onClick={() => handleMenuClick('apple')}
+              role="img"
+              aria-label="Apple Logo"
+            />
+            {activeDropdown === 'apple' && (
+              <div className="absolute top-7 left-0 w-44 bg-neutral-950/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl p-1.5 flex flex-col space-y-0.5 text-textSecondary font-sans font-medium text-[11px] z-50">
+                <button 
+                  onClick={() => {
+                    onShowToast(
+                      "Tech Stack: React, Tailwind CSS, Framer Motion, EmailJS, Vite",
+                      "About This Mac",
+                      "about"
+                    );
+                    setActiveDropdown(null);
+                  }}
+                  className="w-full px-3 py-1.5 text-left rounded hover:bg-accentPrimary hover:text-white transition-colors"
+                >
+                  About This Mac
+                </button>
+              </div>
+            )}
+          </div>
           <span className="font-bold text-white cursor-pointer text-xs select-none mr-2 tracking-wide font-sans">
             {getAppTitle(activeWindow)}
           </span>

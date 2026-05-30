@@ -65,13 +65,39 @@ export default function App() {
   // Static Dark Theme
   const theme = 'dark';
 
-  // Recycle Bin alerts toast
-  const [toast, setToast] = useState({ show: false, message: '' });
-  const showToast = (message) => {
-    setToast({ show: true, message });
+  // Recycle Bin / system alerts toast state
+  const [toast, setToast] = useState({ 
+    show: false, 
+    message: '', 
+    title: 'System Notification', 
+    type: 'default' 
+  });
+  
+  const showToast = (message, title = 'System Notification', type = 'default') => {
+    let resolvedType = type;
+    let resolvedTitle = title;
+    
+    // Auto-detect trash deletion triggers for specialized styling
+    if (message.includes('permanently deleted')) {
+      resolvedType = 'trash';
+      resolvedTitle = 'Trash Bin Cleanup';
+    }
+    
+    setToast({ 
+      show: true, 
+      message, 
+      title: resolvedTitle, 
+      type: resolvedType 
+    });
+    
     setTimeout(() => {
-      setToast({ show: false, message: '' });
-    }, 4500);
+      setToast({ 
+        show: false, 
+        message: '', 
+        title: 'System Notification', 
+        type: 'default' 
+      });
+    }, 6000);
   };
 
   // Handle focusing/raising window layer
@@ -475,17 +501,54 @@ export default function App() {
         onToggleWindow={handleToggleWindow} 
       />
 
-      {/* Recycle Bin custom animated alerts */}
+      {/* Sleek Bottom-Right Custom Toast/Notification Popups */}
       <AnimatePresence>
         {toast.show && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="fixed bottom-24 left-1/2 -translate-x-1/2 px-5 py-2.5 rounded-xl shadow-2xl z-[100] flex items-center space-x-2 text-[10px] font-mono border whitespace-nowrap bg-rose-950/95 text-rose-400 border-rose-500/30 select-none"
+            initial={{ opacity: 0, x: 100, scale: 0.95 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            exit={{ opacity: 0, x: 100, scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 28 }}
+            className={`fixed bottom-24 right-6 w-80 rounded-2xl border shadow-2xl p-4 z-[100] font-sans pointer-events-auto select-none backdrop-blur-xl ${
+              toast.type === 'trash'
+                ? 'bg-rose-950/85 border-rose-500/30 text-rose-100 shadow-rose-950/20'
+                : toast.type === 'about'
+                ? 'bg-neutral-900/90 border-accentPrimary/35 text-white shadow-accentPrimary/5'
+                : 'bg-neutral-900/90 border-white/15 text-white'
+            }`}
           >
-            <span className="w-1.5 h-1.5 rounded-full animate-ping bg-current" />
-            <span>{toast.message}</span>
+            {/* Header info */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-wider text-textSecondary">
+                {toast.type === 'trash' && <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />}
+                {toast.type === 'about' && <span className="w-1.5 h-1.5 rounded-full bg-accentSecondary animate-pulse" />}
+                {toast.type === 'default' && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
+                <span>{toast.title}</span>
+              </div>
+              <button 
+                onClick={() => setToast((prev) => ({ ...prev, show: false }))}
+                className="text-[10px] text-textMuted hover:text-white transition-colors px-1"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Notification Body */}
+            {toast.type === 'about' ? (
+              <div className="space-y-1.5 text-xs">
+                <div className="font-bold text-sm text-gradient">Made by Lakshay Gupta</div>
+                <div className="text-[11px] leading-relaxed text-textSecondary font-medium">
+                  {toast.message}
+                </div>
+                <div className="text-[10px] text-textMuted font-mono bg-white/5 p-1.5 rounded border border-white/5 mt-1">
+                  System: macOS Portfolio Simulation v1.0
+                </div>
+              </div>
+            ) : (
+              <div className="text-xs leading-relaxed text-textSecondary font-medium">
+                {toast.message}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
