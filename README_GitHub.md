@@ -15,13 +15,13 @@
 
 ---
 
-### 🚀 About Me
+### 🚀 Professional Profile
 
-I am a dedicated and creative **B.E. Computer Science student at Chandigarh University** with a strong drive for building high-performance, responsive web applications. As a **Full-Stack Developer** and **UI/UX Designer**, I love bridging the gap between pixel-perfect, interactive visual experiences and robust, clean backend logic.
+I am an engineering student specializing in Computer Science & Engineering at Chandigarh University. As a dedicated Full-Stack Developer and UI/UX Designer, I focus on building scalable, high-performance web applications, bridging robust backend architecture with highly polished, accessible interfaces.
 
-* 🎨 Serving as the **Joint Secretary & Head Designer** at *C Square Club, Chandigarh University*, coordinating visual identities for large-scale technical events.
-* 🔭 I love building scalable platforms (like my campus marketplace **CU Market** and private health assistant **Maitri**).
-* ⚡ Fun fact: I love car driving, traveling, and exploring architectural photography.
+* **Key Focus Areas**: Full-Stack Development (MERN Stack), Responsive Interface Design, Algorithm Optimization, and System Prototyping.
+* **Technical Leadership**: Serving as the Joint Secretary and Head Designer at *C Square Club, Chandigarh University*, directing branding identity and coordinating technical event executions.
+* **Projects & Research**: Developed campus-centric utility platforms like **CU Market** (marketplace with secure real-time messaging) and **Maitri** (privacy-oriented women's health companion). 
 
 ---
 
@@ -58,10 +58,16 @@ I am a dedicated and creative **B.E. Computer Science student at Chandigarh Univ
 
 <p align="center">
   <a href="https://github.com/Lakshayg136">
-    <img src="https://github-readme-stats-git-master-anuraghazra.vercel.app/api?username=Lakshayg136&show_icons=true&theme=tokyonight&hide_border=true" alt="Lakshay's GitHub Stats" height="190" />
+    <img src="https://github-profile-summary-cards.verc.in/api/cards/profile-details?username=Lakshayg136&theme=tokyonight" alt="GitHub Profile Summary" height="190" />
   </a>
   <a href="https://github.com/Lakshayg136">
-    <img src="https://github-readme-stats-git-master-anuraghazra.vercel.app/api/top-langs/?username=Lakshayg136&layout=compact&theme=tokyonight&hide_border=true&langs_count=6" alt="Top Languages" height="190" />
+    <img src="https://github-readme-streak-stats.herokuapp.com/?user=Lakshayg136&theme=tokyonight&hide_border=true" alt="GitHub Streak Stats" height="190" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Lakshayg136">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Lakshayg136&layout=compact&theme=tokyonight&hide_border=true&langs_count=6" alt="Top Languages" height="150" />
   </a>
 </p>
 
